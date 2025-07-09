@@ -11,10 +11,10 @@ router.get('/signup', (req, res) => {
     return res.render('signup');
 });
 
-router.post('/signin', (req, res) => {
+router.post('/signin', async (req, res) => {
     const {email, password } = req.body;
     try{
-    const token = user.matchpasswordAndGenerateToken(email,password);
+    const token = await user.matchpasswordAndGenerateToken(email,password);
 
     return res.cookie("token",token).redirect("/");
     }
@@ -35,7 +35,9 @@ router.post('/signup', async (req, res) => {
     return res.redirect('/');
 });
 
-
+router.get('/logout' ,(req,res) => {
+    return res.clearCookie("token").redirect("/");
+})
 
 
 module.exports = router; 
