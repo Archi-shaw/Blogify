@@ -6,11 +6,20 @@
 </head>
 <body>
     <%- include('./partials/nav') %>
-<form>
-  <div class="mb-3">
-    <label for="title" class="form-label"> Title </label>
-    <input type="text" class="form-control" id="title">
+<form action="/blog" method="POST" enctype="multipart/form-data">
+  <div class="m-3">
+  <label for="coverImage"> CoverImage </label>
+  <input  type="file" name="coverImage" class="form-control" id="coverImage"></input>
+</div>
+  <div class="m-3">
+  <label for="title" class="form-label"> Title </label>
+  <input type="text" name="title" class="form-control" id="title">
   </div>
+  <div class="m-3">
+  <label for="body"> Content </label>
+  <textarea class="form-control" name="body" id="body"></textarea>
+</div>
+  <button type="submit" class="btn btn-primary m-3">Submit</button>
 </form>
     <%- include('./partials/script') %>
 </body>

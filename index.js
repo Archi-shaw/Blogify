@@ -3,6 +3,7 @@ const app = express();
 const port = 3000;
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const Blog = require('./models/blog');
 
 const mongoose = require('mongoose');
 
@@ -14,6 +15,8 @@ mongoose
 
 
 const userRoute = require('./routes/user');
+const blogRoute = require('./routes/blog');
+
 const { checkForAuthenficationCookie } = require('./middleware/auth');
 
 app.use(express.json());
@@ -24,7 +27,8 @@ app.use(cookieParser());
 app.use(checkForAuthenficationCookie('token'));
 
 
-app.get('/', (req, res) => {
+app.get('/', async(req, res) => {
+    const allBlog = await Blog.find({}).sort({ 'Created'})
     return res.render("home",{
         user: req.user,
     });
@@ -32,6 +36,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/user', userRoute);
+app.use('/blog', blogRoute);
+
 
 app.listen(port, () => {
     console.log('Server is running on http://localhost:' + port);
