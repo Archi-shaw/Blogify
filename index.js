@@ -25,12 +25,13 @@ app.set('views', path.join(__dirname, 'views')); // Fixed line
 app.use(express.urlencoded({ extended: false })); 
 app.use(cookieParser());
 app.use(checkForAuthenficationCookie('token'));
-
+app.use(express.static(path.resolve('./public')))
 
 app.get('/', async(req, res) => {
-    const allBlog = await Blog.find({}).sort({ 'Created'})
+    const allBlog = await Blog.find({}).sort({ 'createdAt' : -1 })
     return res.render("home",{
         user: req.user,
+        blogs: allBlog,
     });
 
 });
