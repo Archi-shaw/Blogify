@@ -4,7 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const Blog = require('../models/blog');
 const router = Router();
-const comment = require('../models/comment');
+const Comment = require('../models/comment');
 
 
 router.get('/addnew' , (req,res) => {
@@ -27,9 +27,12 @@ const upload = multer({ storage: storage});
 
 router.get('/:id', async(req,res) => {
     const blog = await Blog.findById(req.params.id).populate('createdBy');
+    const comments = await Comment.find({ blogId: req.params.id}).populate('createdBy');
+    console.log("comments", comments);
     return res.render('blog' ,{
         user: req.user,
-        blog: blog,
+        blog,
+        comments,
     })
 })
 

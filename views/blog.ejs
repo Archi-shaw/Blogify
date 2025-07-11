@@ -6,30 +6,40 @@
 </head>
 <body>
     <%- include('./partials/nav') %>
-     
+
     <div class="container mt-3">
-        <h1> <%= blog.title %></h1>
-        <img src="<%= blog.coverImage %>" width="300px" /> 
-        <p> <%= blog.body %> </p>
-    </div>
-    <div class="m-3">
-        <img src="/<%= blog.createdBy.profileImage %>" width="50px" /> <%= blog.createdBy.name %>
+        <h1><%= blog.title %></h1>
+        <img src="<%= blog.coverImage %>" width="300px" />
+        <p><%= blog.body %></p>
     </div>
 
-     <% if(locals.user) {%>
-        <div class="container m-3 ">
-    <h3> Comments </h3>
-    <form class="container mt-5" style="width: 500px;" action="/user/signin" method="POST">
-    <div class="mb-3">
-    <input type="text" name="content" class="form-control" id="exampleInputEmail1" placeholder="Enter your comment"
-     aria-describedby="emailHelp">
+    <div class="m-3">
+        <img src="/<%= blog.createdBy.profileImage %>" width="50px" />
+        <%= blog.createdBy.name %>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-   </form>
-    </div> 
-        <% } else {%>
-        
-        <%  } %>
+
+    <% if (locals.user) { %>
+        <div class="container m-3">
+            <h3>Comments (<%= comments.length %>) </h3>
+            <form class="container m-2" style="width: 500px;" action="/blog/comment/<%= blog._id %>" method="POST">
+                <div class="m-2">
+                    <input type="text" name="content" class="form-control" placeholder="Enter your comment">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    <% } %>
+
+    <div class="m-3">
+        <% comments.forEach(comment => { %>
+            <div>
+                <img src="/<%= blog.createdBy.profileImage %>" width="50px" />
+                <%= comment.createdBy.name %> :
+                <pre><%= comment.content %></pre>
+            </div>
+        <% }); %>
+    </div>
+
     <%- include('./partials/script') %>
 </body>
 </html>
